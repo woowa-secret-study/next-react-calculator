@@ -1,26 +1,48 @@
-import { useState } from 'react';
+/* eslint-disable no-alert */
 import './calculator.css';
+import Digits from './Component/Digits';
+import Modifier from './Component/Modifier';
+import Operators from './Component/Operators';
+import ResultScreen from './Component/ResultScreen';
+import { ERROR_MESSAGES } from './constant/calculator';
+import useCalculator from './hooks/useCalculator';
+import { TOperators } from './types/calculator';
 
 function App() {
-  const [total, setTotal] = useState(0);
+  const {
+    screen, resetScreen, addScreen, calculate, check,
+  } = useCalculator();
+
+  const onClickOperator = (v: TOperators) => () => {
+    if (v === '=') {
+      calculate();
+      return;
+    }
+
+    if (check.isDigitFirst) {
+      alert(ERROR_MESSAGES.ENTER_DIGIT_FIRST);
+      return;
+    }
+
+    addScreen(v);
+  };
+
+  const onClickDigits = (v: number) => () => {
+    if (check.isOverMaxDigitNumber) {
+      alert(ERROR_MESSAGES.OVER_DIGIT_NUMBER);
+      return;
+    }
+
+    addScreen(v.toString());
+  };
 
   return (
     <div id="app">
       <div className="calculator">
-        <h1 id="total">{total}</h1>
-        <div className="digits flex">
-          {Array.from({ length: 9 }, (_, i) => i + 1).reverse().map((v:number) => <button key={v} type="button" className="digit">{v}</button>)}
-        </div>
-        <div className="modifiers subgrid">
-          <button type="button" className="modifier">AC</button>
-        </div>
-        <div className="operations subgrid">
-          <button type="button" className="operation">/</button>
-          <button type="button" className="operation">X</button>
-          <button type="button" className="operation">-</button>
-          <button type="button" className="operation">+</button>
-          <button type="button" className="operation">=</button>
-        </div>
+        <ResultScreen screen={screen} />
+        <Digits onClick={onClickDigits} />
+        <Modifier onClick={resetScreen} />
+        <Operators onClick={onClickOperator} />
       </div>
     </div>
   );
