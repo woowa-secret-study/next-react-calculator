@@ -1,9 +1,9 @@
 interface IProps {
-  screen: string;
+  screenText: string;
 }
 
-function ResultScreen({ screen }: IProps) {
-  return <h1 id="total">{screen || 0}</h1>;
+function ResultScreen({ screenText }: IProps) {
+  return <h1 id="total">{screenText || 0}</h1>;
 }
 
 export default ResultScreen;

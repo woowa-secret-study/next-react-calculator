@@ -7,12 +7,12 @@ interface IProps {
 
 function Operators({ onClick }: IProps) {
   return (
-    <div className="operations subgrid">
-      {OPERATORS.map((operator) => (
+    <div className="operators subgrid">
+      {Object.values(OPERATORS).map((operator) => (
         <button
           key={operator}
           type="button"
-          className="operation"
+          className="operator"
           onClick={onClick(operator)}
         >
           {operator}

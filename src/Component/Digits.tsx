@@ -1,15 +1,22 @@
+import { MAX_DIGIT } from '../constant/calculator';
+
 interface IProps {
-  onClick: (v: number) => () => void;
+  onClick: (digit: number) => () => void;
 }
 
-function Digits({ onClick }: IProps) {
-  const numbers = Array.from({ length: 10 }, (_, i) => i).reverse();
+const DIGITS = Array.from({ length: MAX_DIGIT + 1 }, (_, i) => MAX_DIGIT - i);
 
+function Digits({ onClick }: IProps) {
   return (
     <div className="digits flex">
-      {numbers.map((v) => (
-        <button key={v} type="button" className="digit" onClick={onClick(v)}>
-          {v}
+      {DIGITS.map((digit) => (
+        <button
+          key={digit}
+          type="button"
+          className="digit"
+          onClick={onClick(digit)}
+        >
+          {digit}
         </button>
       ))}
     </div>
